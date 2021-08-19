@@ -1,7 +1,7 @@
 [Unit]
-Description=Discard unused blocks
+Description=create some stress
 
 [Service]
-Type=oneshot
+Type=simple
 ExecStart=/usr/bin/dd if=/dev/zero of=/dev/null
 CPUShares=1024
