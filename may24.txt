@@ -1,0 +1,236 @@
+    1  git clone https://github.com/sandervanvugt/performance
+    2  cd performance/
+    3  ls
+    4  vim memleak.c
+    5  dnf install -y gcc
+    6  gcc -o memleak memleak.c 
+    7  file memleak
+    8  chmod +x memleak
+    9  ./memleak -r
+   10  rm memleak*
+   11  vim memleak.c
+   12  gcc -o memleak memleak.c 
+   13  ./memleak -r -s 32M
+   14  git pull
+   15  rm -rf mem*
+   16  git pull
+   17  cd memhog/
+   18  gcc -o memhog memhog.c
+   19  chmod +x memhog
+   20  ./memhog -s 1G -r
+   21  ps aux 
+   22  ps aux | grep memhog
+   23  journalctl
+   24  ./memhog -s 1G -v
+   25  ps aux 
+   26  ps aux | grep memhog
+   27  cd
+   28  top
+   29  cd /proc
+   30  mount | grep proc
+   31  ls
+   32  less meminfo 
+   33  top
+   34  less meminfo 
+   35  cd
+   36  vim case.txt
+   37  cd /proc/sys/vm/
+   38  ls
+   39  cat swappiness 
+   40  echo 90 > swappiness 
+   41  top
+   42  less /proc/meminfo 
+   43  cd
+   44  top
+   45  dd if=/dev/zero of=/swapfile bs=1M count=1024
+   46  mkswap /swapfile
+   47  chmod 600 /swapfile 
+   48  ls -l /swapfile 
+   49  free -m
+   50  vim /etc/fstab
+   51  swapon -a
+   52  free -m
+   53  history
+   54  mount
+   55  cd /proc
+   56  echo hello > hello
+   57  pwd
+   58  ls
+   59  cd 6043
+   60  ls
+   61  cat cmdline 
+   62  cat status
+   63  cd
+   64  ps faux | grep firef
+   65  cd /proc/40487
+   66  cd fd
+   67  ls
+   68  ls -l | less
+   69  cd ../..
+   70  ls
+   71  less meminfo 
+   72  less cpuinfo 
+   73  lscpu
+   74  ls
+   75  echo h > /proc/sysrq-trigger 
+   76  dmesg
+   77  history -w
+   78  cd performance/
+   79  ./countdown 12
+   80  cd
+   81  dd if=/dev/zero of=/dev/null &
+   82  exit
+   83  top
+   84  for i $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done | sort -n
+   85  ls /proc/*/oom_score
+   86  for i in $(ls /proc/*/oom_score); do echo $i; done
+   87  for i in $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done
+   88  for i in $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done | sort -n
+   89  cat /proc/5502/cmdline 
+   90  echo f > /proc/sysrq-trigger 
+   91  cd /proc
+   92  ls
+   93  cd sys
+   94  ls
+   95  cd vm
+   96  ls
+   97  cat dirty_expire_centisecs 
+   98  cat dirty_writeback_centisecs 
+   99  free -m
+  100  echo 3 > /proc/sys/vm/drop_caches 
+  101  free -m
+  102  man proc
+  103  slabtop 
+  104  slabinfo
+  105  slabinfo | less
+  106  cd ../kernel/
+  107  ls
+  108  cat pid_max 
+  109  cd ../vm/
+  110  ls
+  111  cat swappiness 
+  112  echo 50 > swappiness 
+  113  sysctl -a | wc -l
+  114  sysctl -a 
+  115  pwd
+  116  vim /etc/sysctl.conf 
+  117  history
+  118  cd
+  119  dnf install tuned
+  120  tuned-adm list
+  121  tuned-adm profile balanced
+  122  systemctl status tuned
+  123  cd /usr/lib/tuned/
+  124  ls
+  125  cd latency-performance/
+  126  ls
+  127  vim tuned.conf 
+  128  mkdir /etc/tuned/sander
+  129  ls
+  130  cp tuned.conf /etc/tuned/sander/
+  131  tuned-adm list
+  132  cd
+  133  top
+  134  killall dd
+  135  kill 7348
+  136  cd performance/
+  137  ls
+  138  cat stress1.service 
+  139  cat stress2.service 
+  140  cp stress* /etc/systemd/system/
+  141  systemctl daemon-reload
+  142  systemctl start stress1
+  143  systemctl start stress2
+  144  top
+  145  kill -9 7348
+  146  top
+  147  systemd-cgtop 
+  148  systemd-cgls
+  149  man systemd.resource-control
+  150  dnf install -y httpd
+  151  systemctl edit httpd.service
+  152  systemctl cat httpd.service
+  153  systemctl start httpd.service
+  154  systemctl status httpd.service
+  155  journalctl
+  156  systemctl edit httpd.service
+  157  systemctl status httpd.service
+  158  systemctl restart httpd.service
+  159  systemctl status httpd.service
+  160  history
+  161  cd /sys/fs/cgroup/cpu
+  162  cd /sys/fs/cgroup/
+  163  ls
+  164  cd system.slice/
+  165  ls
+  166  cat cpu.weight
+  167  cd /etc/systemd/
+  168  ls
+  169  cd system/
+  170  ls
+  171  cd /usr/lib/systemd/
+  172  cd system
+  173  cat user.slice
+  174  systemctl cat stress1.service
+  175  systemctl set-property system.slice CPUWeight=400
+  176  top
+  177  cd
+  178  cd performance/
+  179  killall dd
+  180  kill -9 8359
+  181  ./countdown 12
+  182  ls
+  183  cd memleak/
+  184  ls
+  185  gcc -o memleak memleak.c
+  186  chmod +x memleak
+  187  ./memleak 
+  188  ./memleak -r -s 4M
+  189  echo 0 /sys/bus/cpu/devices/cpu1/online 
+  190  echo 0 > /sys/bus/cpu/devices/cpu1/online 
+  191  history
+  192  for i in $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done | sort -n
+  193  ps aux | grep 10436
+  194  ps aux | grep 10689
+  195  echo -100 > /proc/10436/oom_score_adj 
+  196  for i in $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done | sort -n
+  197  echo f > /proc/sysrq-trigger 
+  198  cd /proc/sys/vm
+  199  ls
+  200  cat panic_on_oom 
+  201  echo 1 > panic_on_oom 
+  202  echo f > /proc/sysrq-trigger 
+  203  dmesg
+  204  history -w; sync; reboot
+  205  history
+  206  for i in $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done | sort -n
+  207  ps aux | grep 10436
+  208  ps aux | grep 10689
+  209  echo -100 > /proc/10436/oom_score_adj 
+  210  for i in $(ls /proc/*/oom_score); do echo $(cat $i) score $i; done | sort -n
+  211  echo f > /proc/sysrq-trigger 
+  212  cd /proc/sys/vm
+  213  ls
+  214  cat panic_on_oom 
+  215  echo 1 > panic_on_oom 
+  216  echo f > /proc/sysrq-trigger 
+  217  dmesg
+  218  history -w; sync; reboot
+  219  top
+  220  journalctl
+  221  free -m
+  222  history -w; sync; reboot
+  223  top
+  224  journalctl
+  225  free -m
+  226  history -w; sync; reboot
+  227  top
+  228  vmstat 2 30
+  229  cd performance/memleak/
+  230  ./memleak -s 32M -r &
+  231  free -m
+  232  echo 200 > /proc/sys/vm/nr_hugepages
+  233  free -m
+  234  less /proc/meminfo 
+  235  history
+  236  history > may24.txt
