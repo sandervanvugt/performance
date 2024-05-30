@@ -1,0 +1,2 @@
+# use gcc -o memleak memleak.c to compile
+# don't forget to chmod +x memleak after compiling
