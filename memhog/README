@@ -1,0 +1,4 @@
+use gcc -o memhog memhog.c to compile
+after compiling, use chmod +x memhog to make it executable
+use memhog -s 1G -r to claim 1 GiB of memory as resident memory
+use memhog -s 1G -v to claim 1 GiB of memory as virtual memory
