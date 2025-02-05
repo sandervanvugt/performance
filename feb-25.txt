@@ -1,0 +1,204 @@
+    1  dd if=/dev/zero of=/dev/null &
+    2  top
+    3  vmstat
+    4  vm stat 2 30
+    5  vmstat 2 30
+    6  iostat
+    7  iostat 2 5
+    8  iotop
+    9  top
+   10  iotop
+   11  git clone https://github.com/sandervanvugt/linperf
+   12  git clone https://github.com/sandervanvugt/performance
+   13  cd performance/
+   14  ls
+   15  ./countdown 12
+   16  dstat -d
+   17  top
+   18  cat /proc/meminfo | less
+   19  top
+   20  cd
+   21  mount | grep proc
+   22  cd /
+   23  cd /proc
+   24  ls
+   25  touch hhh
+   26  cd sys
+   27  ls
+   28  cd ..
+   29  podman run -d docker.io/library/nginx
+   30  podman ps
+   31  podman exec -it 8aba sh
+   32  ls
+   33  cd 2630
+   34  cat cmdline 
+   35  ls
+   36  less status
+   37  cd
+   38  cd /proc
+   39  ls
+   40  history -w
+   41  dmesg
+   42  cd /proc
+   43  ps aux 
+   44  ps aux | grep gdm
+   45  cd 1080
+   46  ls
+   47  cat oom_score
+   48  echo -200 > oom_score_adj 
+   49  cat oom_score
+   50  history -w
+   51  dmesg
+   52  cd /proc
+   53  ps aux 
+   54  ps aux | grep gdm
+   55  cd 1080
+   56  ls
+   57  cat oom_score
+   58  echo -200 > oom_score_adj 
+   59  cat oom_score
+   60  history -w
+   61  sync
+   62  history
+   63  echo f > /proc/sysrq-trigger 
+   64  top
+   65  cd performance/
+   66  ./countdown 12
+   67  cd /proc
+   68  ls
+   69  cd sys
+   70  ls
+   71  cd vm
+   72  ls
+   73  cat swappiness 
+   74  man proc
+   75  echo 200 > swappiness 
+   76  cat swappiness 
+   77  echo 400 > swappiness 
+   78  echo 20 > swappiness 
+   79  sysctl -a
+   80  sysctl -a | grep swappi
+   81  vim /etc/sysctl.conf 
+   82  cd /etc/sysctl.d/
+   83  ls -l
+   84  cd /usr/lib/sysctl.d/
+   85  ls
+   86  vim 50-redhat.conf 
+   87  cd /proc/sys
+   88  cd vm/
+   89  ls
+   90  cat dirty_expire_centisecs 
+   91  cat dirty_writeback_centisecs 
+   92  cd ../kernel/
+   93  ls
+   94  cd ../vm/
+   95  ls
+   96  cat overcommit_memory 
+   97  man proc
+   98  vim /etc/sysctl.conf 
+   99  top
+  100  reboot
+  101  top
+  102  vim /etc/sysctl.conf 
+  103  reboot
+  104  systemctl status tuned
+  105  systemctl start tuned
+  106  tuned-adm list
+  107  tuned-adm profile_info aws
+  108  cd /usr/lib/tuned/
+  109  ls
+  110  cd aws
+  111  ls
+  112  vim tuned.conf 
+  113  cd ../virtual-guest/
+  114  ls
+  115  vim tuned.conf 
+  116  vim /etc/tuned/tuned-main.conf 
+  117  mkdir /etc/tuned/sander
+  118  cp tuned.conf /etc/tuned/sander/
+  119  tuned-adm list
+  120  ls /sys/bus/cpu/devices/
+  121  ls /sys/bus/cpu/devices/cpu1/
+  122  echo 0> /sys/bus/cpu/devices/cpu1/online
+  123  top
+  124  echo 0 > /sys/bus/cpu/devices/cpu1/online
+  125  lscpu
+  126  top
+  127  nice --help
+  128  nice -n -10 dd if=/dev/zero of=/dev/null &
+  129  nice -n 5 dd if=/dev/zero of=/dev/null &
+  130  dd if=/dev/zero of=/dev/null &
+  131  top
+  132  cd
+  133  cd power
+  134  cd performance/
+  135  ./countdown 13
+  136  systemctl list-units -t slice
+  137  killall dd
+  138  ls
+  139  vim stress1.service 
+  140  vim stress2.service 
+  141  systemctl start stress1.service
+  142  cp stress* /etc/systemd/system
+  143  systemctl daemon-reload
+  144  systemctl start stress1.service
+  145  systemctl start stress2.service
+  146  top
+  147  systemctl set-property CPUShares=4096 system.slice
+  148  systemctl set-property system.slice CPUShares=4096
+  149  top
+  150  ls
+  151  kill 4109 4106 4118
+  152  top
+  153  echo 1 > /sys/bus/cpu/devices/cpu1/online 
+  154  top
+  155  cd
+  156  systemctl show sshd.service
+  157  man systemd.directives
+  158  man systemd.resource-control
+  159  dnf install -y httpd
+  160  systemctl edit httpd
+  161  systemctl status httpd
+  162  systemctl start httpd
+  163  systemctl status httpd
+  164  systemctl edit httpd
+  165  systemctl status httpd
+  166  systemctl restart httpd
+  167  systemctl status httpd
+  168  useradd anna
+  169  passwd anna
+  170  systemctl list-units -t slice
+  171  history
+  172  systemctl list-units -t slice
+  173  systemctl set-property user-1001.slice MemoryMax=100M
+  174  ps aux | grep defunc
+  175  chrt --help
+  176  chrt -r 50 dd if=/dev/zero of=/dev/null &
+  177  top
+  178  chrt --help
+  179  chrt -i dd if=/dev/zero of=/dev/null &
+  180  chrt -i 20 dd if=/dev/zero of=/dev/null &
+  181  chrt -i --max
+  182  chrt -i 0 dd if=/dev/zero of=/dev/null &
+  183  top
+  184  dd if=/dev/zero of=/dev/nulll &
+  185* rm -f /dev/null
+  186  dd if=/dev/zero of=/dev/null &
+  187  top
+  188  killall dd
+  189  cd /sys/block/
+  190  ls
+  191  cd sda
+  192  ls
+  193  cd queue/
+  194  ls
+  195  cat scheduler 
+  196  time dd if=/dev/zero of=/bigfile bs=1M count-1024
+  197  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  198  echo none > /sys/block/sda/queue/scheduler 
+  199  cat /sys/block/sda/queue/scheduler 
+  200  rm /bigfile 
+  201  sync
+  202  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  203  top
+  204  history > /tmp/feb-25.txt
