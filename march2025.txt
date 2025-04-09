@@ -1,0 +1,228 @@
+    1  top
+    2  cd /proc/sys
+    3  ls
+    4  cd vm/
+    5  ls
+    6  man proc
+    7  man procinfo
+    8  cat swappiness 
+    9  echo 60 > swappiness 
+   10  cat swappiness 
+   11  vim /etc/sysctl.conf
+   12  cd /etc/sysctl.d/
+   13  ls
+   14  ls -l
+   15  vim 50-swappiness.conf
+   16  sysctl --help
+   17  sysctl -p 50-swappiness.conf 
+   18  cat /proc/sys/vm/swappiness 
+   19  sysctl -a
+   20  sysctl -a | wc -l
+   21  cd /usr/lib/sysctl.d/
+   22  ls
+   23  vim 50-redhat.conf 
+   24  cd /etc/sysctl.d/
+   25  ls
+   26  cd /proc/sys
+   27  cd net/
+   28  ks
+   29  ls
+   30  cd ipv4
+   31  ls
+   32  cat tcp_wmem 
+   33  echo $(( 4194304 / 2 ))
+   34  echo "4096   16384   2097152" > tcp_wmem
+   35  cat tcp_wmem 
+   36  vim /etc/sysctl.d/50-net.conf
+   37  sysctl -p /etc/sysctl.d/50-net.conf 
+   38  vim /etc/sysctl.d/50-net.conf
+   39  sysctl -p /etc/sysctl.d/50-net.conf 
+   40  cd ..
+   41  ip a
+   42  cd ipv6
+   43  ls
+   44  cd ..
+   45  sysctl -a | grep disable
+   46  ssh student@192.168.29.111
+   47  cd ..
+   48  cd kernel/
+   49  ls
+   50  cat pid_max 
+   51  echo $(( 1024 * 64 ))
+   52  echo $(( 1024 * 64 * 2 ))
+   53  echo 131072 > pid_max 
+   54  cd ../vm/
+   55  ls
+   56  cat min_free_kbytes 
+   57  echo $(( 45056 / 1024 ))
+   58  free -m
+   59  echo 2 > drop_caches 
+   60  free -m
+   61  echo 3 > drop_caches 
+   62  free -m
+   63  cd
+   64  tuned-adm list
+   65  tuned-adm profile powersave 
+   66  cd /usr/lib/tuned/
+   67  ls
+   68  cd profiles/
+   69  ls
+   70  ls powersave/
+   71  cat powersave/script.sh 
+   72  cat powersave/tuned.conf 
+   73  tuned-adm recommend 
+   74  tuned-adm list
+   75  cd /etc/
+   76  vim tuned/tuned-main.conf 
+   77  cd tuned/
+   78  ls
+   79  cd profiles/
+   80  ls
+   81  mkdir sander
+   82  cp /usr/lib/tuned/profiles/powersave/* sander/
+   83  cd sander
+   84  vim tuned.conf 
+   85  vim ../../tuned-main.conf 
+   86  systemctl restart tuned
+   87  tuned-adm list
+   88  tuned-adm profile sander
+   89  history
+   90  cd
+   91  cd performance/
+   92  ./countdown 12
+   93  cd
+   94  cd /sys
+   95  ls
+   96  cd bus/cpu/devices/cpu1/
+   97  ls
+   98  echo 0 >online 
+   99  lscpu | less
+  100  cd
+  101  cd performance/
+  102  ls
+  103  cat stress1.service 
+  104  cat stress2.service 
+  105  cp stres* /etc/systemd/system/
+  106  systemctl daemon-reload
+  107  systemctl start stress1
+  108  systemctl start stress2
+  109  top
+  110  cp stress1.service stress3.service
+  111  vim stress3.service 
+  112  cp stress3.service /etc/systemd/system/
+  113  systemctl daemon-reload
+  114  systemctl start stress3
+  115  top
+  116  cd
+  117  systemctl show sshd
+  118  man systemd.directives
+  119  man systemd.resource-control
+  120  dnf install httpd -y
+  121  systemctl enable --now httpd
+  122  systemctl edit httpd
+  123  systemctl status httpd
+  124  systemctl stop httpd
+  125  systemctl start httpd
+  126  systemctl status httpd
+  127  journalctl -u httpd
+  128  journalctl 
+  129  systemctl edit httpd
+  130  systemctl status httpd
+  131  systemctl restart httpd
+  132  systemctl status httpd
+  133  systemd-cgtop
+  134  systemd-cgls
+  135  systemd-run --slice=example.slice sleep 10d
+  136  systemd-cgls
+  137  systemd-run --slice=example.slice dd if=/dev/zero of=/dev/null
+  138  top
+  139  systemctl set-property system.slice CPUShares=4096
+  140  top
+  141  killlall dd
+  142  killall dd
+  143  dnf install -y iotop
+  144  iotop
+  145  dnf install -y fio
+  146  man fio
+  147  fio --help
+  148  fio --name=write-test --filename=/mnt/testfile --size=1G --bs=1M --rw=write --ioengine=libaio --direct=1 --numjobs=1 --time_based --runtime=60s
+  149  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  150  rm /bigfile 
+  151  sync
+  152  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  153  rm /bigfile 
+  154  sync
+  155  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  156  cd /sys/block/nvme0n1/
+  157  ls
+  158  cd queue
+  159  ls
+  160  cd ..
+  161  ls
+  162  find . -name "iosched"
+  163  cd queue
+  164  ls
+  165  cat scheduler 
+  166  echo bfq > scheduler 
+  167  cat scheduler 
+  168  history
+  169  rm /bigfile 
+  170  sync
+  171  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  172  rm -f /bigfile 
+  173  sync
+  174  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  175  rm -f /bigfile 
+  176  sync
+  177  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  178  rm -f /bigfile 
+  179  sync
+  180  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  181  echo none > scheduler 
+  182  cd
+  183  man mount
+  184  cd performance/
+  185  ./countdown 12
+  186  cd
+  187  reboot
+  188  free -m
+  189  vmstat 2 5
+  190  less /proc/meminfo 
+  191  reboot
+  192  top
+  193  cd /proc/1101
+  194  ls
+  195  cat oom_score
+  196  cat oom_score_adj 
+  197  echo 300 > oom_score_adj 
+  198  cat oom_score
+  199  top
+  200  cd
+  201  echo h > /proc/sysrq-trigger 
+  202  dmesg
+  203  echo f > /proc/sysrq-trigger 
+  204  journalctl
+  205  top
+  206  journalctl
+  207  cd /var/log
+  208  less messages 
+  209  cd
+  210  cd /proc/sys/vm
+  211  ls
+  212  cat dirty_writeback_centisecs 
+  213  cat dirty_expire_centisecs 
+  214  free -m
+  215  echo 200 > /proc/sys/vm/nr_hugepages
+  216  free -m
+  217  grep -i huge /proc/meminfo 
+  218  cd
+  219  cd /proc/sys/vm
+  220  ls
+  221  cat overcommit_memory 
+  222  cat overcommit_
+  223  cat overcommit_ratio 
+  224  top
+  225  history
+  226  vim /etc/sysctl.d/99-sysctl.conf 
+  227  reboot
+  228  history > /tmp/march2025.txt
