@@ -1,0 +1,895 @@
+    1  subscription-manager register
+    2  subscription-manager attach
+    3  ip a
+    4  nmtui
+    5  ip a
+    6  subscription-manager register
+    7  poweroff
+    8  top
+    9  subscription-manager attach
+   10  cat /etc/os-release 
+   11  yum install -y sysstat
+   12  systemctl list-unit-files -t timer
+   13  systemctl cat sysstat-collect.timer
+   14  systemctl cat sysstat.service
+   15  systemctl edit sysstat-collect.timer 
+   16  cp /usr/lib/systemd/system/sysstat-collect.timer /etc/systemd/system/
+   17  vim /etc/systemd/system/sysstat-collect.timer 
+   18  systemctl daemon-reload
+   19  systemctl enable --now sysstat-collect.timer
+   20  systemctl status sysstat-collect.timer 
+   21  echo $(( 20000000000000 / 1024 / 1024 / 1024 / 1024 ))
+   22  echo $(( 20000000000000 / 1024 ))
+   23  ps aux | less
+   24  man ps
+   25  top
+   26  ps -efL
+   27  top --help
+   28  dnf install -y git
+   29  git clone https://github.com/sandervanvugt/linperf
+   30  git clone https://github.com/sandervanvugt/performance
+   31  cd performance/
+   32  ls
+   33  ./zombie &
+   34  top
+   35  ps aux | grep defunc
+   36  ps faux | grep -B 2 defunc
+   37  killall -SIGCHLD 34576
+   38  killall -SIGCHLD 2976
+   39  killall -SIGCHLD bash
+   40  ps faux | grep -B 2 defunc
+   41  man 7 signals
+   42  man 7 signal
+   43  kill -l
+   44  kill -l | grep SIGCHLD
+   45  sar -A
+   46  ./countdown 12
+   47  man sar
+   48  sar -A -o ~/sardata
+   49  sar -A
+   50  sar 
+   51  sar -o saradata
+   52  man sar
+   53  cd /var/log
+   54  ls
+   55  cd sa
+   56  ls
+   57  less sa22
+   58  sar -f sa22 -A
+   59  cp sa22 ~
+   60  ls
+   61  cd 
+   62  ls
+   63  man sar
+   64  sar -f sa22 -d
+   65  sar -f sa22 -d | sort -k6n
+   66  lsblk
+   67  less /proc/devices 
+   68  man sar
+   69  man sadf
+   70  #sadf -d /var/log/sa/sa21 -- -r -n DEV
+   71  sadf -d sa22 -- -n DEV
+   72  man sadf
+   73  man sadf > /tmp/sardata.svg
+   74  sadf -d sa22 -- -n DEV > /tmp/sardata.svg
+   75  sadf -g -d sa22 -- -n DEV > /tmp/sardata.svg
+   76  man sadf
+   77  sadf -g sa22 -- -n DEV > /tmp/sardata.svg
+   78  vmstat 2 5
+   79  vmstat -s
+   80  iostat 2 5
+   81  iotop
+   82  ls -l /var/log/sa
+   83  sar -A -f sa22 | less
+   84  sar -A 5 10 -o /tmp/sar.data
+   85  ls -l /tmp/sar.data
+   86  sar -n DEV
+   87  sar -n DEV | grep ens160
+   88  sar -n DEV | head
+   89  sar -n DEV | grep ens160 | sort -k4n
+   90  dnf install pcp pcp-gui pcp-system-tools sysstat
+   91  dnf list pcp*
+   92  dnf list pcp* | grep -v pmda
+   93  firewall-cmd --permanent --add-service=pmcd
+   94  firewall-cmd --relod
+   95  firewall-cmd --reload
+   96  systemctl enable --now pmcd
+   97  pcp free
+   98  pcp dstat
+   99  pminfo | grep disk 
+  100  pminfo | grep disk | grep read
+  101  pmval -s 5 disk.dev.read
+  102  systemctl status pmlogger
+  103  systemctl enable --now pmlogger
+  104  pmdumplog -L /var/log/pcp/pmlogger/localhost.localdomain/pmlogger.log 
+  105  cd performance/
+  106  ./countdown 12
+  107  pwd
+  108  cd /var/log/pcp
+  109  ls
+  110  cd pmlogger/
+  111  ls
+  112  ls localhost.localdomain/
+  113  ls -l localhost.localdomain/
+  114  pmdumplog localhost.localdomain/20250422.12.02.0
+  115  pminfo
+  116  pminfo | wc -l
+  117  pminfo | grep load | grep kernel
+  118  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load
+  119  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | head
+  120  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | less
+  121  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E
+  122  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | awk '{ print $2 }' | sort -rn
+  123  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | awk '{ print $2 }' | sort -rn | head -1
+  124  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | awk '{ print $2 }' | sort -rn | head -10
+  125  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | sort -k2n
+  126  pmval -f -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | sort -k2n
+  127  pmval -f 2 -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | sort -k2n
+  128  sysctl -a
+  129  sysctl -a | wc -l
+  130  dnf install man-pages
+  131  dnf search kernel* | grep doc
+  132  dnf install -y ker
+  133  dnf install -y kernel-doc
+  134  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/
+  135  ls
+  136  cd Documentation/
+  137  ls
+  138  grep -lR 'swappiness' *
+  139  less sysctl/vm.txt
+  140  cd /proc
+  141  ls
+  142  less meminfo 
+  143  less partitions 
+  144  cat partitions 
+  145  lsblk
+  146  ls l mounts
+  147  ls -l mounts
+  148  cat mounts 
+  149  less cpuinfo 
+  150  ps aux
+  151  cd 36772
+  152  less status
+  153  ls fd
+  154  ls -l fd
+  155  ls -l fd | less
+  156  ls
+  157  cat limits 
+  158  cat stat
+  159  cd ../sys
+  160  mount | grep proc
+  161  mount | grep sysfs
+  162  ls
+  163  cd vm
+  164  ls
+  165  cat drop_caches 
+  166  man proc
+  167  echo 160 > swappiness 
+  168  pwd
+  169  echo 60 > swappiness 
+  170  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/
+  171  grep -Rl swappiness *
+  172  cd Documentation/
+  173  less sysctl/vm.txt 
+  174  cd /proc/sys/vm
+  175  echo swappiness 
+  176  cat swappiness 
+  177  vim /etc/sysctl.d/50-mem.conf
+  178  sysctl -p /etc/sysctl.d/50-mem.conf 
+  179  uname -r
+  180  ls -i
+  181  vim /etc/tuned/tuned-main.conf 
+  182  mounr | grep proc
+  183  mount | grep proc
+  184  mount
+  185  cd
+  186  mkdir /test
+  187  mount -t proc proc /test
+  188  ls /test
+  189  echo 50 > /proc/sys/vm/swappiness 
+  190  cat /test/sys/vm/swappiness 
+  191  cd performance/
+  192  ./countdown 18
+  193  cd /sys/bus/cpu/devices/
+  194  ls
+  195  ls cpu0
+  196  ls pcu1
+  197  ls cpu1
+  198  echo 0 > cpu1/online 
+  199  lscpu | less
+  200  echo 1 > cpu1/online 
+  201  cd /sys/block/nvme0n1/
+  202  ls
+  203  cd queue/
+  204  ls
+  205  cat scheduler 
+  206  echo bfq > scheduler 
+  207  cat scheduler 
+  208  vim /etc/systemd/system/scheduler.service
+  209  systemctl daemon-reload
+  210  systemctl enable --now scheduler.service 
+  211  systemctl status scheduler.service
+  212  cd
+  213  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/Documentation/
+  214  grep -Ril 'kyber' *
+  215  modprobe st
+  216  lsmod | grep st
+  217  modprobe -r st
+  218  modinfo st
+  219  cd /etc/modprobe.d/
+  220  ls
+  221  tail -5 mlx4.conf 
+  222  echo 'options st buffer_kbps=64' > st.conf
+  223  lsmod | grep st
+  224  modprobe st
+  225  dmesg
+  226  modinfo st
+  227  echo 'options st buffer_kbs=64' > st.conf
+  228  modprobe -r st
+  229  modprobe st
+  230  dmesg
+  231  cd
+  232  sysctl -a | grep disable
+  233  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/Documentation/
+  234  grep -Ril icmp_echo_ignore_all
+  235  less networking/ip-sysctl.txt 
+  236  alias cdkd="cd $(pwd)"
+  237  alias
+  238  echo 'alias cdkd="cd $(pwd)"' >> /etc/bashrc
+  239  tail /etc/bashrc
+  240  echo alias cdkd="cd $(pwd)" >> /etc/bashrc
+  241  tail /etc/bashrc
+  242  cd /proc/sys/net/
+  243  ls
+  244  cd ipv4/
+  245  ls
+  246  cat tcp_rmem 
+  247  cdkd
+  248  grep 'tcp_rmem' -Ril
+  249  less networking/ip-sysctl.txt 
+  250  cat tcp_mem
+  251  cd /proc/sys/net/ipv4
+  252  cat tcp_mem
+  253  cd
+  254  cd /etc/tuned/
+  255  tuned-adm recommend
+  256  mkdir sander
+  257  pwd
+  258  cp /usr/lib/tuned/virtual-guest/tuned.conf .
+  259  pwd
+  260  cd sander/
+  261  cp ../tuned.conf .
+  262  vim tuned.conf 
+  263  tuned-adm list
+  264  tuned-adm profile sander
+  265  tuned-adm list
+  266  cd ..
+  267  vim tuned-main.conf 
+  268  sysctl -a | grep swappi
+  269  vim tuned-main.conf 
+  270  tuned-adm profile sander
+  271  sysctl -a | grep swappi
+  272  history
+  273  history -w
+  274  subscription-manager attach
+  275  cat /etc/os-release 
+  276  yum install -y sysstat
+  277  systemctl list-unit-files -t timer
+  278  systemctl cat sysstat-collect.timer
+  279  systemctl cat sysstat.service
+  280  systemctl edit sysstat-collect.timer 
+  281  cp /usr/lib/systemd/system/sysstat-collect.timer /etc/systemd/system/
+  282  vim /etc/systemd/system/sysstat-collect.timer 
+  283  systemctl daemon-reload
+  284  systemctl enable --now sysstat-collect.timer
+  285  systemctl status sysstat-collect.timer 
+  286  echo $(( 20000000000000 / 1024 / 1024 / 1024 / 1024 ))
+  287  echo $(( 20000000000000 / 1024 ))
+  288  ps aux | less
+  289  man ps
+  290  top
+  291  ps -efL
+  292  top --help
+  293  dnf install -y git
+  294  git clone https://github.com/sandervanvugt/linperf
+  295  git clone https://github.com/sandervanvugt/performance
+  296  cd performance/
+  297  ls
+  298  ./zombie &
+  299  top
+  300  ps aux | grep defunc
+  301  ps faux | grep -B 2 defunc
+  302  killall -SIGCHLD 34576
+  303  killall -SIGCHLD 2976
+  304  killall -SIGCHLD bash
+  305  ps faux | grep -B 2 defunc
+  306  man 7 signals
+  307  man 7 signal
+  308  kill -l
+  309  kill -l | grep SIGCHLD
+  310  sar -A
+  311  ./countdown 12
+  312  man sar
+  313  sar -A -o ~/sardata
+  314  sar -A
+  315  sar 
+  316  sar -o saradata
+  317  man sar
+  318  cd /var/log
+  319  ls
+  320  cd sa
+  321  ls
+  322  less sa22
+  323  sar -f sa22 -A
+  324  cp sa22 ~
+  325  ls
+  326  cd 
+  327  ls
+  328  man sar
+  329  sar -f sa22 -d
+  330  sar -f sa22 -d | sort -k6n
+  331  lsblk
+  332  less /proc/devices 
+  333  man sar
+  334  man sadf
+  335  #sadf -d /var/log/sa/sa21 -- -r -n DEV
+  336  sadf -d sa22 -- -n DEV
+  337  man sadf
+  338  man sadf > /tmp/sardata.svg
+  339  sadf -d sa22 -- -n DEV > /tmp/sardata.svg
+  340  sadf -g -d sa22 -- -n DEV > /tmp/sardata.svg
+  341  man sadf
+  342  sadf -g sa22 -- -n DEV > /tmp/sardata.svg
+  343  vmstat 2 5
+  344  vmstat -s
+  345  iostat 2 5
+  346  iotop
+  347  ls -l /var/log/sa
+  348  sar -A -f sa22 | less
+  349  sar -A 5 10 -o /tmp/sar.data
+  350  ls -l /tmp/sar.data
+  351  sar -n DEV
+  352  sar -n DEV | grep ens160
+  353  sar -n DEV | head
+  354  sar -n DEV | grep ens160 | sort -k4n
+  355  dnf install pcp pcp-gui pcp-system-tools sysstat
+  356  dnf list pcp*
+  357  dnf list pcp* | grep -v pmda
+  358  firewall-cmd --permanent --add-service=pmcd
+  359  firewall-cmd --relod
+  360  firewall-cmd --reload
+  361  systemctl enable --now pmcd
+  362  pcp free
+  363  pcp dstat
+  364  pminfo | grep disk 
+  365  pminfo | grep disk | grep read
+  366  pmval -s 5 disk.dev.read
+  367  systemctl status pmlogger
+  368  systemctl enable --now pmlogger
+  369  pmdumplog -L /var/log/pcp/pmlogger/localhost.localdomain/pmlogger.log 
+  370  cd performance/
+  371  ./countdown 12
+  372  pwd
+  373  cd /var/log/pcp
+  374  ls
+  375  cd pmlogger/
+  376  ls
+  377  ls localhost.localdomain/
+  378  ls -l localhost.localdomain/
+  379  pmdumplog localhost.localdomain/20250422.12.02.0
+  380  pminfo
+  381  pminfo | wc -l
+  382  pminfo | grep load | grep kernel
+  383  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load
+  384  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | head
+  385  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | less
+  386  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E
+  387  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | awk '{ print $2 }' | sort -rn
+  388  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | awk '{ print $2 }' | sort -rn | head -1
+  389  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | awk '{ print $2 }' | sort -rn | head -10
+  390  pmval -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | grep -v E | sort -k2n
+  391  pmval -f -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | sort -k2n
+  392  pmval -f 2 -a /var/log/pcp/pmlogger/localhost.localdomain/20250422.12.02.0 kernel.all.load | sort -k2n
+  393  sysctl -a
+  394  sysctl -a | wc -l
+  395  dnf install man-pages
+  396  dnf search kernel* | grep doc
+  397  dnf install -y ker
+  398  dnf install -y kernel-doc
+  399  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/
+  400  ls
+  401  cd Documentation/
+  402  ls
+  403  grep -lR 'swappiness' *
+  404  less sysctl/vm.txt
+  405  cd /proc
+  406  ls
+  407  less meminfo 
+  408  less partitions 
+  409  cat partitions 
+  410  lsblk
+  411  ls l mounts
+  412  ls -l mounts
+  413  cat mounts 
+  414  less cpuinfo 
+  415  ps aux
+  416  cd 36772
+  417  less status
+  418  ls fd
+  419  ls -l fd
+  420  ls -l fd | less
+  421  ls
+  422  cat limits 
+  423  cat stat
+  424  cd ../sys
+  425  mount | grep proc
+  426  mount | grep sysfs
+  427  ls
+  428  cd vm
+  429  ls
+  430  cat drop_caches 
+  431  man proc
+  432  echo 160 > swappiness 
+  433  pwd
+  434  echo 60 > swappiness 
+  435  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/
+  436  grep -Rl swappiness *
+  437  cd Documentation/
+  438  less sysctl/vm.txt 
+  439  cd /proc/sys/vm
+  440  echo swappiness 
+  441  cat swappiness 
+  442  vim /etc/sysctl.d/50-mem.conf
+  443  sysctl -p /etc/sysctl.d/50-mem.conf 
+  444  uname -r
+  445  ls -i
+  446  vim /etc/tuned/tuned-main.conf 
+  447  mounr | grep proc
+  448  mount | grep proc
+  449  mount
+  450  cd
+  451  mkdir /test
+  452  mount -t proc proc /test
+  453  ls /test
+  454  echo 50 > /proc/sys/vm/swappiness 
+  455  cat /test/sys/vm/swappiness 
+  456  cd performance/
+  457  ./countdown 18
+  458  cd /sys/bus/cpu/devices/
+  459  ls
+  460  ls cpu0
+  461  ls pcu1
+  462  ls cpu1
+  463  echo 0 > cpu1/online 
+  464  lscpu | less
+  465  echo 1 > cpu1/online 
+  466  cd /sys/block/nvme0n1/
+  467  ls
+  468  cd queue/
+  469  ls
+  470  cat scheduler 
+  471  echo bfq > scheduler 
+  472  cat scheduler 
+  473  vim /etc/systemd/system/scheduler.service
+  474  systemctl daemon-reload
+  475  systemctl enable --now scheduler.service 
+  476  systemctl status scheduler.service
+  477  cd
+  478  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/Documentation/
+  479  grep -Ril 'kyber' *
+  480  modprobe st
+  481  lsmod | grep st
+  482  modprobe -r st
+  483  modinfo st
+  484  cd /etc/modprobe.d/
+  485  ls
+  486  tail -5 mlx4.conf 
+  487  echo 'options st buffer_kbps=64' > st.conf
+  488  lsmod | grep st
+  489  modprobe st
+  490  dmesg
+  491  modinfo st
+  492  echo 'options st buffer_kbs=64' > st.conf
+  493  modprobe -r st
+  494  modprobe st
+  495  dmesg
+  496  cd
+  497  sysctl -a | grep disable
+  498  cd /usr/share/doc/kernel-doc-4.18.0-553.50.1.el8_10/Documentation/
+  499  grep -Ril icmp_echo_ignore_all
+  500  less networking/ip-sysctl.txt 
+  501  alias cdkd="cd $(pwd)"
+  502  alias
+  503  echo 'alias cdkd="cd $(pwd)"' >> /etc/bashrc
+  504  tail /etc/bashrc
+  505  echo alias cdkd="cd $(pwd)" >> /etc/bashrc
+  506  tail /etc/bashrc
+  507  cd /proc/sys/net/
+  508  ls
+  509  cd ipv4/
+  510  ls
+  511  cat tcp_rmem 
+  512  cdkd
+  513  grep 'tcp_rmem' -Ril
+  514  less networking/ip-sysctl.txt 
+  515  cat tcp_mem
+  516  cd /proc/sys/net/ipv4
+  517  cat tcp_mem
+  518  cd
+  519  cd /etc/tuned/
+  520  tuned-adm recommend
+  521  mkdir sander
+  522  pwd
+  523  cp /usr/lib/tuned/virtual-guest/tuned.conf .
+  524  pwd
+  525  cd sander/
+  526  cp ../tuned.conf .
+  527  vim tuned.conf 
+  528  tuned-adm list
+  529  tuned-adm profile sander
+  530  tuned-adm list
+  531  cd ..
+  532  vim tuned-main.conf 
+  533  sysctl -a | grep swappi
+  534  vim tuned-main.conf 
+  535  tuned-adm profile sander
+  536  sysctl -a | grep swappi
+  537  history
+  538  history -w
+  539  reboot
+  540  uname -r
+  541  ls
+  542  ls -R /
+  543  vim /etc/bashrc
+  544  source /etc/bashrc
+  545  cdkd
+  546  cd
+  547  sysctl -a | grep swapp
+  548  cd /usr/lib/tuned/powersave/
+  549  ls
+  550  cat script.sh 
+  551  vim tuned.conf 
+  552  cd /etc/tuned/sander/
+  553  vim tuned.conf 
+  554  vim script.sh
+  555  chmod +x script.sh 
+  556  tuned-adm profile powersave 
+  557  tuned-adm profile sander
+  558  ls -l /tmp
+  559  tuned-adm profile powersave 
+  560  vim ../tuned-main.conf 
+  561  cd /etc/default/
+  562  ls
+  563  cd ../security/
+  564  ls
+  565  vim limits.conf 
+  566  cd
+  567  cd performance/
+  568  ./countdown 13
+  569  cd
+  570  systemctl show sshd.service
+  571  cd performance/
+  572  ls
+  573  cat stress1.service 
+  574  cat stress2.service 
+  575  cp stres* /etc/systemd/system
+  576  systemctl daemon-reload
+  577  systemctl start stress1
+  578  systemctl start stress2
+  579  top
+  580  echo 0 > /sys/bus/cpu/devices/cpu1/online 
+  581  top
+  582  systemctl list-untits -t slice
+  583  systemctl list-units -t slice
+  584  systemd-cgtop 
+  585  systemd-cgls
+  586  killall dd
+  587  top
+  588  dnf install -y httpd
+  589  systemctl show httpd.service
+  590  man systemd.directives
+  591  man systemd.resource-control
+  592  cd
+  593  cp /usr/lib/systemd/system/httpd.service /etc/systemd/system
+  594  vim /etc/systemd/system
+  595  systemctl daemon-reload
+  596  systemctl start httpd
+  597  systemctl show httpd
+  598  vim /etc/systemd/system
+  599  vim /etc/systemd/system/httpd.service 
+  600  systemctl daemon-reload
+  601  systemctl show httpd
+  602  systemctl list-units -t slice
+  603  systemctl status sander.slice
+  604  systemctl restart httpd.service
+  605  systemctl list-units -t slice
+  606  vim /etc/systemd/system/httpd.service 
+  607  systemctl daemon-reload
+  608  systemctl restart httpd.service
+  609  systemctl status httpd.service
+  610  journactl
+  611  journalctl
+  612  vim /etc/systemd/system/httpd.service 
+  613  systemctl daemon-reload
+  614  systemctl restart httpd.service
+  615  systemctl status httpd.service
+  616  mount | grepo cgr
+  617  mount | grep cgr
+  618  cd /sys/fs
+  619  ls
+  620  cd cgroup/
+  621  ls
+  622  cd memory/
+  623  ls
+  624  cd sander.slice
+  625  ls
+  626  cat memory.limit_in_bytes 
+  627  cat memory.max_usage_in_bytes 
+  628  cd httpd.service/
+  629  ls
+  630  cat memory.limit_in_bytes 
+  631  echo $(( 32 * 1024 * 1024))
+  632  echo $(( 32 * 1024 * 1024)) > memory.limit_in_bytes 
+  633  systemctl status httpd.service
+  634  systemctl set-property system.slice CPUShares=4096
+  635  systemctl start stress1
+  636  systemctl start stress2
+  637  top
+  638  echo 1 > /sys/bus/cpu/devices/cpu1/online 
+  639  lscpu 
+  640  cd
+  641  systemd-cgls
+  642  vim /etc/systemd/system/stress2.service 
+  643  systemctl daemon-reload
+  644  echo 0 > /sys/bus/cpu/devices/cpu1/online 
+  645  systemctl start stress1.service 
+  646  systemctl start stress2.service 
+  647  top
+  648  systemctl set-property system.slice CPUShares=1024
+  649  top
+  650  killall dd
+  651  history > /tmp/22april25.txt
+  652  ip a
+  653  tuned-adm profile
+  654  dnf repos list
+  655  dnf repo list
+  656  dnf repolist
+  657  dnf config-manager --enable rhel-8-for-$(uname -m)-baseos-debug-rpms
+  658  dnf config-manager --enable rhel-8-for-$(uname -m)-appstream-debug-rpms
+  659  dnf repolist
+  660  dnf install systemtap systemtap-runtime
+  661  stap-prep
+  662  cd /usr/share/systemtap/examples
+  663  ls
+  664  cd memory/
+  665  ls
+  666  stap -v -p 4 -m cachestat /usr/share/systemtap/examples/memory/cachestat.stp
+  667  dnf install kernel-devel-4.18.0-240.el8.x86_64
+  668  stap -v -p 4 -m cachestat /usr/share/systemtap/examples/memory/cachestat.stp
+  669  ls
+  670  stap /usr/share/systemtap/examples/memory/cachestat.stp
+  671  vim cachestat.stp 
+  672  cd
+  673  dmidecode
+  674  dmidecode | wc -l
+  675  dmidecode > dmidecode.txt
+  676  less dmidecode.txt
+  677  less dmidecode.txt\
+  678  less dmidecode.txt 
+  679  lshw
+  680  lshw -short
+  681  lspci -k
+  682  dnf install -y strace ltrace
+  683  strace ls
+  684  man man
+  685  man 2 ioctl
+  686  strace -c ls
+  687  fio --name=test1 --ioengine=libaio --iodepth=1 --rw-randwrite --bs=4k --direct=1 --size=512M --numjobs=2 --group-reporting --filename=/tmp/testfile
+  688  fio --name=test1 --ioengine=libaio --iodepth=1 --readwrite --bs=4k --direct=1 --size=512M --numjobs=2 --group-reporting --filename=/tmp/testfile
+  689  curl cht.sh/fio
+  690  fio --filename=/tmp/test1 --direct=1 --rw=randread --bs=4k --ioengine=libaio --iodepth=256 --runtime=120 --numjobs=4 --time_based --group_reporting --name=job_name --eta-newline=1 --readonly
+  691  time dd if=/dev/zero of=/bigfile bs=1M count=1024
+  692  cd performance/
+  693  ./countdown 13
+  694  getconf -a
+  695  getconf -a | grep PAGE
+  696  top
+  697  cat /proc/meminfo 
+  698  lscpu
+  699  cat /proc/cpuinfo 
+  700  cd
+  701  top
+  702  ps -o pid,minflt,majflt,comm -C firefox
+  703  dnf install -y perf
+  704  dnf repolist
+  705  perf list
+  706  perf list | wc -l
+  707  perf stat -e minor-faults firefox
+  708  top
+  709  lscpu | grep NUMA
+  710  numactl --hardware
+  711  numastat
+  712  numactl --cpumodebind=0 --membind=0 sleep 3600 &
+  713  numactl --cpunodebind=0 --membind=0 sleep 3600 &
+  714  jobs
+  715  numastat -c sleep
+  716  top
+  717  less /proc/cpuinfo 
+  718  less /proc/meminfo 
+  719  top
+  720  sysctl -a | grep swapp
+  721  echo 80 > /proc/sys/vm/swappiness 
+  722  top
+  723  vmstat 2 30
+  724  top
+  725  free -m
+  726  echo 3 > /proc/sys/vm/drop_caches 
+  727  free -m
+  728  dd if=/dev/zero of=/swapfile bs=1M count=1024
+  729  mkswap /swapfile
+  730  chmod 600 /swapfile 
+  731  swapon /swapfile
+  732  free -m
+  733  free -h
+  734  cd performance/
+  735  ./countdown 13
+  736  top
+  737  man packagekitd
+  738  dnf install valgrind
+  739  man valgrind
+  740  valgrind --leak-test=full
+  741  man valgrind
+  742  valgrind --leak-check=full $(pidof packagekitd)
+  743  valgrind --leak-check=full packagekitd
+  744  valgrind --leak-check=full -p $(pidof packagekitd)
+  745  valgrind --help
+  746  valgrind --help | less
+  747  valgrind --leak-check=full --pid=$(pidof packagekitd)
+  748  ps aux | grep packagekitd
+  749  valgrind --leak-check=full --pid=2404
+  750  valgrind --leak-check=full --show-leak-kinds=all --pid=2404
+  751  valgrind --leak-check=full --show-leak-kinds=all packagekitd
+  752  valgrind --leak-check=full --show-leak-kinds=all sshd
+  753  systemctl list-unit-files | grep package
+  754  systemctl status packagekit.service
+  755  cp /usr/lib/systemd/system/packagekit.service /etc/systemd/systemd/
+  756  cp /usr/lib/systemd/system/packagekit.service /etc/systemd/system/
+  757  vim /etc/systemd/system
+  758  systemctl daemon-reload
+  759  systemctl reload packagekit
+  760  kill -9 $(pidof packagekitd)
+  761  top
+  762  dnf install -y nmap
+  763  top
+  764  reboot
+  765  systemctl status packagekit
+  766  top
+  767  journalctl -u packagekitd
+  768  journalctl -u packagekit
+  769  man valgrind
+  770  vim /etc/systemd/system/packagekit.service 
+  771  systemctl daemon-reload
+  772  reboot
+  773  top
+  774  rm /etc/sysctl.d/50-overcommit.conf 
+  775  reboot
+  776  cd performance/
+  777  ./countdown 13
+  778  git pull
+  779  chmod +x overcommit-calculation.sh 
+  780  ./overcommit-calculation.sh 
+  781  sysctl -a | grep overco
+  782  top
+  783  vim /etc/sysctl.d/50-overcommit.conf
+  784  sysctl -p /etc/sysctl.d/50-overcommit.conf 
+  785  reboot
+  786  grep -i commit /proc/meminfo 
+  787  top
+  788  cd /proc/1007
+  789  ls
+  790  cat oom_score
+  791  echo 100 > oom_score_adj
+  792  top
+  793  echo h > /proc/sysrq-trigger 
+  794  dmesg
+  795  echo f > /proc/sysrq-trigger 
+  796  journalctl
+  797  less /var/log/messages 
+  798  top
+  799  cd
+  800  mount | grep huge
+  801  vim /etc/fstab
+  802  mkdir /huge
+  803  mount -a
+  804  mount | grep huge
+  805  grep -i huge /proc/meminfo 
+  806  free -m
+  807  echo 500 > /proc/sys/vm/nr_hugepages
+  808  free -m
+  809  vim /etc/sysctl.d/50-huge.conf
+  810  reboot
+  811  grep -i huge /proc/meminfo 
+  812  vim /etc/default/grub 
+  813  grub2-mkconfig -o /boot/grub2/grub.cfg
+  814  reboot
+  815  grep -i huge /proc/meminfo 
+  816  dnf install -y qperf
+  817  qperf 192.168.52.160 tcp_bw tcp_lat
+  818  time cat /bigfile | nc 192.168.52.160 2345
+  819  cat /bigfile 
+  820  ls -l /bigfile 
+  821  time cat /bigfile | nc 192.168.52.160 2345
+  822  cd performance/
+  823  ./countdown 18
+  824  cd /proc/sys/net
+  825  ls
+  826  cd core/
+  827  ls
+  828  cat rmem_max
+  829  cat wmem_max
+  830  cdkd
+  831  grep -Ril wmem_max *
+  832  less networking/ip-sysctl.txt 
+  833  less sysctl/net.txt
+  834  less networking/ip-sysctl.txt 
+  835  cd -
+  836  cd ../ipv4/
+  837  cat udp_mem 
+  838  cat tcp_mem
+  839  echo $(( 174486 * 4 ))
+  840  cdkd
+  841  less networking/ip-sysctl.txt 
+  842  cd -
+  843  cat tcp_rmem 
+  844  echo $(( 87240 * 4 ))
+  845  cat ../core/rmem_max 
+  846  ping 192.168.52.160
+  847  dnf install bcc-tools
+  848  /usr/share/bcc/tools/gethostlatency 
+  849  cd ../../vm/
+  850  ls
+  851  cat dirty_expire_centisecs 
+  852  cat dirty_ratio 
+  853  cat dirty_background_ratio 
+  854  cat dirty_writeback_centisecs 
+  855  slabtop
+  856  tuned-adm profile
+  857  cdkd
+  858  grep -Ril dirty_back *
+  859  less sysctl/vm.txt 
+  860  free -m
+  861  cd -
+  862  cd
+  863  cd performance/
+  864  ./countdown 13
+  865  top
+  866  ps axo pid,pri,rtprio,ni,cls,comm
+  867  top
+  868  chrt -p 2679
+  869  chrt -p 12
+  870  chrt -p 6
+  871  chrt -f 44 dd if=/dev/zero of=/dev/null &
+  872  dd if=/dev/zero of=/dev/null &
+  873  chrt -p 9918
+  874  chrt -f -p 9918
+  875  chrt -r -p 9918
+  876  chrt --help
+  877  chrt -r 99 dd if=/dev/zero of=/dev/null
+  878  chrt -r  dd if=/dev/zero of=/dev/null
+  879  chrt -r 0 dd if=/dev/zero of=/dev/null
+  880  chrt -f 44 yes > /dev/null &
+  881  dd if=/dev/zero of=/dev/null &
+  882  chrt -f -p 10 9978
+  883  chrt -f -p  9978
+  884  vim /etc/sysconfig/irqbalance
+  885  systemctl restart irqbalance
+  886  cat /proc/interrupts 
+  887   lscpu
+  888  valgrind --tool=cachegrind ls
+  889  valgrind --tool=cachegrind cat /etc/hosts
+  890  cd /usr/share/bcc/tools/
+  891  ls
+  892  cachetop
+  893  ./cachetop
+  894  ./cachestat 
+  895  history > /tmp/23april25.txt
