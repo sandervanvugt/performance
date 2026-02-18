@@ -1,0 +1,308 @@
+    1  subscription-manager register
+    2  dnf repolist
+    3  top
+    4  mount | grep sysfs
+    5  cd /sys
+    6  ls
+    7  cd bus
+    8  ls
+    9  cd cpu/
+   10  ls
+   11  cd device
+   12  cd devices
+   13  ls
+   14  ls cpu1/
+   15  cat cpu1/online n
+   16  cat cpu1/online
+   17  lscpu | less
+   18  echo 0 > cpu1/online 
+   19  lscpu | less
+   20  cd
+   21  dd if=/dev/zero of=/dev/null &
+   22  top
+   23  killall dd
+   24  systemctl status sshd
+   25  systemctl show sshd
+   26  dnf install -y git
+   27  cd /etc/systemd/system/
+   28  vim sleep.service
+   29  systemctl daemon-reload
+   30  systemctl enable --now sleep.service
+   31  systemctl cat sshd.service
+   32  vim sleep.service
+   33  systemctl daemon-reload
+   34  systemctl enable --now sleep.service
+   35  vim sleep.service
+   36  man systemd.directives
+   37  man systemd.exec
+   38  vim sleep.service
+   39  systemctl daemon-reload
+   40  systemctl restart sleep.service
+   41  systemctl show sleep.service
+   42  cd
+   43  ls
+   44  git clone https://github.com/sandervanvugt/linperf
+   45  git clone https://github.com/sandervanvugt/performance
+   46  cd performance/
+   47  ls
+   48  ./countdown 13
+   49  dnf install -y sysstat
+   50  systemctl list-unit-files sysstat*
+   51  systemctl cat sysstat-collect.service
+   52  systemctl edit sysstat-collector.timer
+   53  systemctl edit sysstat-collect.timer
+   54  echo export EDITOR=/usr/bin/vim
+   55  echo export EDITOR=/usr/bin/vim >> ~/.bashrc
+   56  source ~/.bashrc
+   57  systemctl edit sysstat-collect.timer
+   58  top
+   59  less /proc/meminfo 
+   60  top
+   61  echo $(( 20000000000000 / 1024 ))
+   62  echo $(( 19531250000 / 1024 ))
+   63  echo $(( 19073486 / 1024 ))
+   64  echo $(( 18626 / 1024 ))
+   65  top
+   66  ps aux | grep defunc
+   67  history
+   68  systemctl status sysstat-collect.timer 
+   69  ls /var/log/sa
+   70  ls
+   71  ls -l /var/log/sa
+   72  systemctl cat sysstat-collect.service 
+   73  systemctl start sysstat-collect.service 
+   74  ls -l /var/log/sa/sa18 
+   75  less /var/log/sa/sa18 
+   76  systemctl start sysstat-collect.service 
+   77  ls -l /var/log/sa/sa18 
+   78  systemctl cat sysstat-collect.timer 
+   79  man sysstat.time
+   80  man systemd.time
+   81  ls -l /var/log/sa/sa18 
+   82  cd /etc/systemd/system/
+   83  ls
+   84  rm -rf sysstat-collect.timer.d/
+   85  systemctl daemon-reload
+   86  cp /usr/lib/systemd/system/sysstat-collect.timer .
+   87  vim sysstat-collect.timer 
+   88  systemctl daemon-reload
+   89  date
+   90  vmstat 2 5
+   91  date
+   92  ls -l /var/log/sa/sa18 
+   93  journalctl -u sysstat
+   94  journalctl -u sysstat-collect.service
+   95  journalctl -u sysstat-collect.timer
+   96  systemctl list-unit-files sysstat*
+   97  systemctl list-units sysstat*
+   98  systemctl start sysstat-collect.timer 
+   99  systemctl status sysstat-collect.timer 
+  100  history | grep sysstat-collect
+  101  date
+  102  sleep 52
+  103  ls -l /var/log/sa/sa18 
+  104  sar -A
+  105  sar -A -o /tmp/sar.data
+  106  sar -A 5 -o /tmp/sar.data
+  107  ls -l /tmp/sar.data 
+  108  sadf /tmp/sar.data -- -A
+  109  sar -n DEV -f /tmp/sar.data
+  110  sadf /tmp/sar.data -- -n DEV
+  111  sadf /tmp/sar.data -- -P ALL
+  112  sar --help | less
+  113  sar -1
+  114  sar -q
+  115  sar --help | less
+  116  sar -s
+  117  sar -d
+  118  dnf install pcp pcp-gui pcp-system-tools
+  119  firewall-cmd --permanent
+  120  firewall-cmd --permanent --add-service=pmcd
+  121  firewall-cmd --reload
+  122  systemctl enable --now pmcd
+  123  pcp free
+  124  free -
+  125  free 
+  126  pcp free
+  127  pcp dstat
+  128  pminfo
+  129  pmval -s 5 disk.dev.read
+  130  systemctl enable --now pmlogger
+  131  pcp
+  132  pmdumplog
+  133  pmdumplog -a
+  134  ls -l
+  135  ls -l /var/log/pcp/pmlogger/localhost.localdomain/
+  136  pmdumplog -L /var/log/pcp/pmlogger/localhost.localdomain/20260218.18.00.0
+  137  pminfo
+  138  pminfo | grep load
+  139  pmval -f 2 -a /var/log/pcp/pmlogger/localhost.localdomain/20260218.18.00.0 kernel.all.load
+  140  pmval -f 2 -a /var/log/pcp/pmlogger/localhost.localdomain/20260218.18.00.0 kernel.all.load | less
+  141  pmval -f 2 -a /var/log/pcp/pmlogger/localhost.localdomain/20260218.18.00.0 kernel.all.load | sort -k2n
+  142  history
+  143  dmidecode 
+  144  dmidecode | 
+  145  dmidecode | grep -A 5 cache
+  146  dmidecode | grep -A 5 -i cache
+  147  lspci -k
+  148  modinfo st
+  149  ls -l /usr/lib/modprobe.d/
+  150  cat /usr/lib/modprobe.d/dist-alsa.conf 
+  151  ls /etc/modprobe.d/
+  152  vim /etc/modprobe.d/st.conf
+  153  modprobe st
+  154  lsmod | grep st
+  155  dmesg
+  156  man -k modprobe
+  157  man modprobe.conf
+  158  modprobe -r st
+  159  vim /etc/modprobe.d/st.conf
+  160  modprobe st
+  161  dmesg
+  162  history
+  163  cat /etc/modprobe.d/st.conf 
+  164  systemctl show sshd.service
+  165  systemctl show --all sshd.service
+  166  ps aux | grep firewalld
+  167  cd /proc/894
+  168  ls
+  169  cat numa_maps 
+  170  less status 
+  171  man numactl
+  172  numactl --help | less
+  173  cd
+  174  mount | grep proc
+  175  cd /proc
+  176  touch hhh > hello
+  177  echo hhh > hello
+  178  ls
+  179  history
+  180  cd 894
+  181  ls
+  182  cat status
+  183  ls
+  184  ls -l fd
+  185  less mem 
+  186  cat  mem 
+  187  ls
+  188  cd ..
+  189  ls
+  190  cat cpuinfo 
+  191  arch
+  192  lscpu
+  193  ls
+  194  less meminfo 
+  195  free -m
+  196  history -w
+  197  usermod -aG wheel student
+  198  history
+  199  cd /proc/sys
+  200  ls
+  201  cd vm
+  202  ls
+  203  cat swappiness 
+  204  echo 30 > swappiness 
+  205  sysctl -a | grep swapp
+  206  pwd
+  207  sysctl -a | wc -l
+  208  sysctl -a 
+  209  vim etc/sysctl.conf
+  210  vim /etc/sysctl.conf
+  211  history
+  212  lscpu | less
+  213  ip a
+  214  systctl -a | grep ipv6 | grep disable
+  215  sysctl -a | grep ipv6 | grep disable
+  216  net.ipv6.conf.all.disable_ipv6=1
+  217  sysctl net.ipv6.conf.all.disable_ipv6=1
+  218  sysctl -a | grep ipv6 | grep disable
+  219  ip a
+  220  sysctl --help
+  221  sysctl -a | grep ipv6 | grep disable
+  222  history
+  223  cd ../net
+  224  ls *rmem*
+  225  ls
+  226  cd ipv4
+  227  ls
+  228  ls *rmem*
+  229  cat tcp_rmem
+  230  dnf install -y kernel-doc
+  231  cd /usr/share/doc/kernel-doc-5.14.0-611.34.1/Documentation/
+  232  ls
+  233  grep -iRl tcp_rmem *
+  234  less output/_sources/admin-guide/sysctl/net.rst.txt
+  235  less networking/ip-sysctl.rst
+  236  cd /proc/sys/net/core/
+  237  ls *rmem*
+  238  cd -
+  239  grep -iRl rmem_default
+  240  less networking/ip-sysctl.rst
+  241  less admin-guide/sysctl/net.rst
+  242  cd -
+  243  man proc
+  244  cd ..
+  245  tuned-adm list
+  246  cd /usr/lib/tuned/
+  247  ls
+  248  cd network-throughput/
+  249  ls
+  250  less tuned.conf 
+  251  cd ../throughput-performance/
+  252  vim tuned.conf 
+  253  mkdir /etc/tuned/sander
+  254  cp tuned.conf /etc/tuned/sander/
+  255  tuned-adm list
+  256  tuned-adm profile sander
+  257  tuned-adm list
+  258  tuned-adm recommend 
+  259  tuned-adm profile powersave
+  260  cd
+  261  history
+  262  vim /etc/tuned/tuned-main.conf 
+  263  systemctl cat systemd-sysctl.service
+  264  systemctl list-units -t slice
+  265  systemctl cat system.slice
+  266  systemctl cat user.slice
+  267  cd /usr/lib/systemd/system
+  268  ls *slice
+  269  history
+  270  systemd-cgtop 
+  271  systemd-cgls
+  272  cd 
+  273  cd performance/
+  274  history 
+  275  history | grep git
+  276  ls
+  277  cp stress* /etc/systemd/system
+  278  systemctl daemon-reload
+  279  cat stress1.service 
+  280  cat stress2.service 
+  281  echo 0 > /sys/bus/cpu/devices/cpu1/online 
+  282  systemctl start stress1.service 
+  283  systemctl start stress2.service 
+  284  top
+  285  systemctl set-property system.slice CPUWeight=200
+  286  top
+  287  man systemd.directives
+  288  man systemd.resource-control
+  289  top
+  290  dnf install -y httpd
+  291  killall dd
+  292  systemctl edit httpd.service
+  293  cd
+  294  systemctl start httpd
+  295  systemctl status httpd
+  296  cp /usr/lib/systemd/system/user.slice /etc/systemd/system/sander.slice
+  297  systemctl daemon-reload
+  298  systemctl set-property sander.slice CPUWeight=400
+  299  systemctl cat sander.slice
+  300  systemctl show --all stress2.service
+  301  vim /etc/systemd/system/stress2.service 
+  302  systemctl start stress1.service
+  303  systemctl start stress2.service
+  304  systemd-cgtop
+  305  systemctl cat system.slice
+  306  systemctl cat sander.slice
+  307  history
+  308  history > /tmp/18feb26.txt
